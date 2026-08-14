@@ -14,7 +14,7 @@
     label { font-weight: bold; font-size: 14px; display: block; margin-top: 10px; color: #2d3748; }
     input[type="text"], input[type="date"] { width: 100%; padding: 10px; margin: 6px 0 10px; border: 1px solid #cbd5e0; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
     
-    /* 六大段落標題樣式 */
+    /* 五大段落標題樣式 */
     .section-banner { background: #1F497D; color: white; padding: 12px 16px; border-radius: 8px; font-size: 16px; font-weight: bold; margin: 24px 0 14px; display: flex; align-items: center; box-shadow: 0 2px 4px rgba(31,73,125,0.25); }
     
     .item-header { border-bottom: 1px solid #edf2f7; padding-bottom: 10px; margin-bottom: 12px; }
@@ -80,7 +80,7 @@
       <label>驗屋工程師</label><input type="text" id="engineer" placeholder="請輸入工程師姓名" required>
     </div>
 
-    <!-- 檢查項目容器 (自動按六大段落渲染) -->
+    <!-- 檢查項目容器 (自動按五大段落渲染) -->
     <div id="check-list-container"></div>
 
     <!-- 手寫簽名 -->
@@ -123,7 +123,7 @@
     // 您的 Apps Script 部署網址
     const GAS_URL = "https://script.google.com/macros/s/AKfycbwUFnczI4kbjwOU0DDt47xhYs0rw_h-MQ3HFU_d7X3XhXlpVtjmUSw7O-oZas7oUc0S/exec";
 
-    // 六大段落結構與 19 項檢驗標準
+    // 五大段落結構與 19 項檢驗標準
     const sections = [
       {
         sectionTitle: "一、 核對客變內容與現場是否一致",
