@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>潤泰全方位驗屋品質現場檢查清單</title>
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft JhengHei", sans-serif; padding: 12px; background: #f0f4f8; margin: 0; color: #333; }
+    .container { max-width: 760px; margin: 0 auto; }
+    .card { background: white; border-radius: 10px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+    h2 { text-align: center; color: #1F497D; margin-bottom: 4px; }
+    .subtitle { text-align: center; color: #666; font-size: 13px; margin-bottom: 18px; }
+    label { font-weight: bold; font-size: 14px; display: block; margin-top: 10px; color: #2d3748; }
+    input[type="text"], input[type="date"] { width: 100%; padding: 10px; margin: 6px 0 10px; border: 1px solid #cbd5e0; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
+    
+    .item-header { border-bottom: 1px solid #edf2f7; padding-bottom: 10px; margin-bottom: 12px; }
+    .item-cat { display: inline-block; background: #ebf8ff; color: #2b6cb0; font-size: 12px; font-weight: bold; padding: 2px 8px; border-radius: 4px; margin-bottom: 6px; }
+    .item-title { font-weight: bold; color: #1a202c; font-size: 16px; margin-bottom: 4px; }
+    .item-desc { font-size: 13px; color: #4a5568; line-height: 1.5; }
+    
+    .status-group { margin: 12px 0; }
+    .status-group label { display: inline-flex; align-items: center; margin-right: 25px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .status-group input[type="radio"] { margin-right: 6px; width: 18px; height: 18px; }
+
+    /* 缺失記錄區塊 */
+    .defect-section { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-top: 10px; }
+    .defect-title { font-weight: bold; font-size: 14px; color: #c53030; margin-bottom: 10px; }
+    .defect-box { background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; margin-bottom: 10px; }
+    .defect-label { font-size: 13px; font-weight: bold; color: #4a5568; margin-bottom: 6px; }
+    .defect-input { width: 100%; padding: 8px; border: 1px solid #cbd5e0; border-radius: 4px; box-sizing: border-box; font-size: 14px; margin-bottom: 8px; }
+    
+    /* 按鈕樣式 */
+    .btn-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
+    .btn-action { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 7px 12px; font-size: 13px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1px solid transparent; text-decoration: none; }
+    .btn-camera { background: #3182ce; color: white; border-color: #2b6cb0; }
+    .btn-camera:hover { background: #2b6cb0; }
+    .btn-gallery { background: #edf2f7; color: #2d3748; border-color: #cbd5e0; }
+    .btn-gallery:hover { background: #e2e8f0; }
+    .btn-del-photo { background: #fed7d7; color: #9b2c2c; border-color: #feb2b2; padding: 4px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; border: 1px solid #feb2b2; margin-top: 4px; display: none; }
+    
+    .hidden-file { display: none; }
+    .preview-box { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+    .preview-img { width: 75px; height: 75px; object-fit: cover; border-radius: 6px; border: 1px solid #cbd5e0; display: none; }
+
+    .add-defect-btn { background: #edf2f7; color: #2b6cb0; border: 1px dashed #cbd5e0; width: 100%; padding: 10px; border-radius: 6px; font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s; }
+    .add-defect-btn:hover { background: #e2e8f0; }
+
+    #signature-pad { border: 2px dashed #a0aec0; border-radius: 8px; background: #fff; width: 100%; height: 180px; touch-action: none; margin-top: 10px; }
+    .btn-submit { background: #1F497D; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-size: 17px; font-weight: bold; cursor: pointer; margin: 20px 0 40px; box-shadow: 0 4px 6px rgba(31,73,125,0.2); }
+    .btn-submit:disabled { background: #a0aec0; cursor: not-allowed; }
+    .clear-btn { background: #edf2f7; color: #4a5568; border: 1px solid #cbd5e0; padding: 6px 14px; border-radius: 4px; margin-top: 8px; font-size: 13px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>潤泰全方位驗屋品質現場檢查清單</h2>
+    <div class="subtitle">依據「全方位驗屋：潤泰的品質與承諾」規範標準編製</div>
+
+    <!-- 基本資料 -->
+    <div class="card">
+      <label>住戶姓名</label><input type="text" id="name" placeholder="請輸入姓名" required>
+      <label>戶別 / 房號</label><input type="text" id="unit" placeholder="例：A棟 12F-1" required>
+      <label>驗屋日期</label><input type="date" id="date" required>
+      <label>驗屋工程師</label><input type="text" id="engineer" placeholder="請輸入工程師姓名" required>
+    </div>
+
+    <!-- 檢查項目容器 -->
+    <div id="check-list-container"></div>
+
+    <!-- 手寫簽名 -->
+    <div class="card">
+      <div class="item-title" style="color: #1F497D;">客戶 / 工程師 手寫簽名確認</div>
+      <canvas id="signature-pad"></canvas>
+      <button type="button" class="clear-btn" onclick="signaturePad.clear()">清除重簽</button>
+    </div>
+
+    <button type="button" class="btn-submit" id="submitBtn" onclick="submitForm()">確認並送出驗收記錄</button>
+  </div>
+
+  <script>
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbyo2aFtfMkK1XayNmPDaKNaw7nSKZoHlXpdpZyepWmQvLKTwL3elSi0dIX8mggL5r6R/exec";
+
+    const items = [
+      { cat: "建材外觀", title: "選色選樣核對", desc: "會同客戶逐一核對選色選樣與實際完成是否一致。" },
+      { cat: "建材外觀", title: "木門設備檢視", desc: "檢視室內木門、廚衛設備與各項設備外觀無刮傷受損。" },
+      { cat: "建材外觀", title: "牆面油漆平整度", desc: "以目視方式檢視牆面油漆表面平整度，確保漆面無刮傷。" },
+      { cat: "電力弱電", title: "插座安全測試", desc: "利用插座漏電測試器一一測試戶內所有插座，以避免電器漏電與人體傷害。" },
+      { cat: "電力弱電", title: "弱電與訊號測試", desc: "從戶內弱電箱體至各插座出口端（共同天線、網路等）利用相應檢測設備進行訊號測試。" },
+      { cat: "給排水檢測", title: "給水開關測試", desc: "測試所有給水設備、器具的開關功能，確保給水正常且無阻塞情形。" },
+      { cat: "給排水檢測", title: "空調排水測試", desc: "藉由流動水源測試空調室內機預留排水孔，確保排水順暢、無阻塞或溢水之情況。" },
+      { cat: "給排水檢測", title: "廚具水槽溢流測試", desc: "廚具水槽進行滿水溢流測試，確認無溢出，並開啟止水塞測試排水通暢、接管無滲漏。" },
+      { cat: "給排水檢測", title: "衛浴器具排水", desc: "測試廁所衛浴器具操作使用正常、開關順暢，排水順暢無阻礙。" },
+      { cat: "給排水檢測", title: "陽台積水測試", desc: "前後陽台採用臨時止水塞進行積水測試，放流時地磚洩水快速、不殘留積水。" },
+      { cat: "給排水檢測", title: "天花板內部檢視", desc: "利用工具（如手電筒與鏡面）檢視天花板內部，確保管線及管道間無滲漏水。" },
+      { cat: "給排水檢測", title: "管道間內視鏡檢視", desc: "確實以內視鏡檢視排水管內部，確保管壁無任何雜質、碎屑或水泥殘留。" },
+      { cat: "防滲漏測試", title: "窗框噴水防漏測試", desc: "針對常見窗框角漏水問題，以持續噴水方式進行測試，並藉由工具掃視有無滲水。" },
+      { cat: "門窗安全", title: "門窗推拉測試", desc: "現場實地操作門窗，確保推拉順暢，並說明門窗使用注意事項。" },
+      { cat: "門窗安全", title: "窗戶防墜安全扣", desc: "檢查窗戶是否確實提供「防墜限制開安全扣裝置」，確保幼童安全防止墜落。" },
+      { cat: "門窗安全", title: "換氣框設備", desc: "檢視窗戶換氣框裝置是否能正常啟閉，以提供室內外空氣交換。" },
+      { cat: "門窗安全", title: "砂窗安全扣", desc: "檢視砂窗是否配備安全扣裝置，以避免砂窗因強風或拉扯掉落室外。" },
+      { cat: "門窗安全", title: "五金銹蝕檢查", desc: "藉由實際操作測試，檢視各處金屬五金、合頁、鉸鏈有無銹蝕情況。" },
+      { cat: "設備地磚", title: "廚具設備檢驗", desc: "逐一操作並檢查廚具設備運作是否正常、功能是否完備。" },
+      { cat: "設備地磚", title: "淋浴拉門沖水測試", desc: "以正常淋浴方式進行沖水測試，檢視拉門門縫膠條遮蔽效果。" },
+      { cat: "設備地磚", title: "地磚黏著度敲擊", desc: "利用工具敲擊地磚，聽取聲音判斷地磚鋪貼是否確實黏著。" },
+      { cat: "維護交屋", title: "住戶專屬手冊", desc: "驗屋完成後，提供住戶專屬的「房屋使用手冊」，協助建立維護計畫。" }
+    ];
+
+    const container = document.getElementById('check-list-container');
+
+    // 渲染檢查項目清單
+    items.forEach((item, itemIdx) => {
+      let defectBlocksHtml = "";
+      for (let d = 1; d <= 3; d++) {
+        defectBlocksHtml += createDefectRowHtml(itemIdx, d);
+      }
+
+      container.innerHTML += `
+        <div class="card" id="item_card_${itemIdx}">
+          <div class="item-header">
+            <span class="item-cat">${item.cat}</span>
+            <div class="item-title">${item.title}</div>
+            <div class="item-desc">${item.desc}</div>
+          </div>
+          <div class="status-group">
+            <label><input type="radio" name="status_${itemIdx}" value="合格" checked> 🟢 合格</label>
+            <label><input type="radio" name="status_${itemIdx}" value="待改善"> 🔴 待改善</label>
+          </div>
+          <div class="defect-section">
+            <div class="defect-title">⚠️ 缺失記錄清單</div>
+            <div id="defects_container_${itemIdx}">
+              ${defectBlocksHtml}
+            </div>
+            <button type="button" class="add-defect-btn" onclick="addMoreDefect(${itemIdx})">＋ 自行新增缺失記錄</button>
+          </div>
+        </div>
+      `;
+    });
+
+    // 產生單一缺失記錄的 HTML（含「直接拍照」與「選取相簿」按鈕）
+    function createDefectRowHtml(itemIdx, defectNum) {
+      return `
+        <div class="defect-box" id="defect_box_${itemIdx}_${defectNum}">
+          <div class="defect-label">缺失記錄 ${defectNum}</div>
+          <input type="text" class="defect-input" id="defect_text_${itemIdx}_${defectNum}" placeholder="請輸入缺失文字描述（例：漆面刮傷、五金歪斜...）">
+          
+          <div class="btn-group">
+            <!-- 拍照按鈕 -->
+            <button type="button" class="btn-action btn-camera" onclick="document.getElementById('photo_cam_${itemIdx}_${defectNum}').click()">📷 現場拍照</button>
+            <input type="file" accept="image/*" capture="environment" class="hidden-file" id="photo_cam_${itemIdx}_${defectNum}" onchange="previewDefectPhoto(this, ${itemIdx}, ${defectNum})">
+
+            <!-- 相簿按鈕 -->
+            <button type="button" class="btn-action btn-gallery" onclick="document.getElementById('photo_file_${itemIdx}_${defectNum}').click()">📁 相簿選擇</button>
+            <input type="file" accept="image/*" class="hidden-file" id="photo_file_${itemIdx}_${defectNum}" onchange="previewDefectPhoto(this, ${itemIdx}, ${defectNum})">
+          </div>
+
+          <div class="preview-box">
+            <img class="preview-img" id="preview_${itemIdx}_${defectNum}" alt="預覽照片">
+            <button type="button" class="btn-del-photo" id="del_btn_${itemIdx}_${defectNum}" onclick="removePhoto(${itemIdx}, ${defectNum})">❌ 移除照片</button>
+          </div>
+        </div>
+      `;
+    }
+
+    // 自行新增缺失記錄
+    function addMoreDefect(itemIdx) {
+      const container = document.getElementById(`defects_container_${itemIdx}`);
+      const nextNum = container.getElementsByClassName('defect-box').length + 1;
+      const div = document.createElement('div');
+      div.innerHTML = createDefectRowHtml(itemIdx, nextNum);
+      container.appendChild(div.firstElementChild);
+    }
+
+    // 照片預覽與壓縮處理
+    const photoDataMap = {};
+    function previewDefectPhoto(input, itemIdx, defectNum) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = new Image();
+          img.src = e.target.result;
+          img.onload = function() {
+            const canvas = document.createElement('canvas');
+            const maxDim = 1200;
+            let width = img.width;
+            let height = img.height;
+            if (width > height && width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            const compressedBase64 = canvas.toDataURL('image/jpeg', 0.75);
+
+            photoDataMap[`${itemIdx}_${defectNum}`] = compressedBase64;
+            const preview = document.getElementById(`preview_${itemIdx}_${defectNum}`);
+            const delBtn = document.getElementById(`del_btn_${itemIdx}_${defectNum}`);
+            preview.src = compressedBase64;
+            preview.style.display = 'block';
+            delBtn.style.display = 'inline-block';
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // 移除照片
+    function removePhoto(itemIdx, defectNum) {
+      delete photoDataMap[`${itemIdx}_${defectNum}`];
+      document.getElementById(`preview_${itemIdx}_${defectNum}`).style.display = 'none';
+      document.getElementById(`del_btn_${itemIdx}_${defectNum}`).style.display = 'none';
+      document.getElementById(`photo_cam_${itemIdx}_${defectNum}`).value = '';
+      document.getElementById(`photo_file_${itemIdx}_${defectNum}`).value = '';
+    }
+
+    // 初始化簽名板
+    const canvas = document.getElementById('signature-pad');
+    function resizeCanvas() {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      canvas.width = canvas.offsetWidth * ratio;
+      canvas.height = canvas.offsetHeight * ratio;
+      canvas.getContext("2d").scale(ratio, ratio);
+    }
+    window.onresize = resizeCanvas;
+    resizeCanvas();
+    const signaturePad = new SignaturePad(canvas);
+
+    // 送出表單
+    async function submitForm() {
+      const name = document.getElementById('name').value.trim();
+      const unit = document.getElementById('unit').value.trim();
+      if (!name || !unit) {
+        alert('請填寫住戶姓名與戶別/房號！');
+        return;
+      }
+      if (signaturePad.isEmpty()) {
+        alert('請先在下方簽名板完成手寫簽名！');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerText = "資料與照片上傳中，請稍候...";
+
+      const compiledItems = items.map((it, itemIdx) => {
+        const status = document.querySelector(`input[name="status_${itemIdx}"]:checked`).value;
+        const defectBoxes = document.querySelectorAll(`#defects_container_${itemIdx} .defect-box`);
+        const defects = [];
+
+        defectBoxes.forEach((box, dIdx) => {
+          const dNum = dIdx + 1;
+          const text = (document.getElementById(`defect_text_${itemIdx}_${dNum}`) || {}).value || "";
+          const photoBase64 = photoDataMap[`${itemIdx}_${dNum}`] || "";
+
+          if (text.trim() !== "" || photoBase64 !== "") {
+            defects.push({
+              text: text.trim(),
+              photoBase64: photoBase64
+            });
+          }
+        });
+
+        return {
+          cat: it.cat,
+          title: it.title,
+          status: status,
+          defects: defects
+        };
+      });
+
+      const payload = {
+        name: name,
+        unit: unit,
+        date: document.getElementById('date').value,
+        engineer: document.getElementById('engineer').value.trim(),
+        signature: signaturePad.toDataURL(),
+        items: compiledItems
+      };
+
+      try {
+        await fetch(GAS_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        alert('驗收清單、缺失照片與簽名已全數成功送出！');
+        location.reload();
+      } catch (err) {
+        alert('送出失敗，請確認網路連線：' + err);
+        submitBtn.disabled = false;
+        submitBtn.innerText = "確認並送出驗收記錄";
+      }
+    }
+  </script>
+</body>
+</html>
